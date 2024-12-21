@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EventMangaer {
+  id       Int     @unique @default(autoincrement())
+  name     String
+  email    String  @unique
+  number   BigInt  @unique
+  password String
+  events   Event[]
+}
+
+model Vendor {
+  id       Int    @unique @default(autoincrement())
+  name     String
+  email    String @unique
+  number   BigInt @unique
+  password String
+  tasks    Task[]
+}
+
+model TeamMember {
+  id       Int    @unique @default(autoincrement())
+  name     String
+  email    String @unique
+  number   BigInt @unique
+  password String
+  Event    Event? @relation(fields: [eventId], references: [id])
+  tasks    Task[]
+  eventId  Int
+}
+
+model Client {
+  id       Int     @unique @default(autoincrement())
+  name     String
+  email    String  @unique
+  number   BigInt  @unique
+  password String
+  event    Event[]
+}
+
+model Event {
+  id          Int          @unique @default(autoincrement())
+  name        String
+  clientId    Int
+  teamMembers TeamMember[]
+  status      EventStatus
+  tasks       Task[]
+  Client      Client       @relation(fields: [clientId], references: [id])
+  managerId   Int
+  manager     EventMangaer @relation(fields: [managerId], references: [id])
+  createdOn   DateTime     @default(now())
+  deadLine    DateTime
+  updatedOn   DateTime     @updatedAt
+}
+
+model Task {
+  id             Int              @unique @default(autoincrement())
+  name           String
+  eventId        Int
+  event          Event            @relation(fields: [eventId], references: [id])
+  vendorId       Int
+  vendor         Vendor           @relation(fields: [vendorId], references: [id])
+  teammemberId   Int
+  teamMember     TeamMember       @relation(fields: [teammemberId], references: [id])
+  status         TaskStatus
+  subtasks       SubTask[]
+  subTaskRequest SubTaskRequest[]
+  createdOn      DateTime         @default(now())
+  deadLine       DateTime
+  updatedOn      DateTime         @updatedAt
+}
+
+model SubTask {
+  id            Int           @unique @default(autoincrement())
+  name          String
+  status        SubTaskStatus
+  taskId        Int
+  createdById   Int
+  createdByRole UserRole
+  task          Task          @relation(fields: [taskId], references: [id])
+  createdOn     DateTime      @default(now())
+  deadLine      DateTime
+  updatedOn     DateTime      @updatedAt
+}
+
+model SubTaskRequest {
+  id             Int           @id @default(autoincrement())
+  name           String
+  taskId         Int
+  task           Task          @relation(fields: [taskId], references: [id])
+  requestedById  Int
+  status         RequestStatus @default(PENDING)
+  approvedById   Int?
+  approvedByRole UserRole?
+  createdOn      DateTime      @default(now())
+  reviewedOn     DateTime?
+  isMajor        Boolean       @default(false)
+}
+
+enum EventStatus {
+  COMPLETED
+  UNDERPREPRATION
+}
+
+enum TaskStatus {
+  CREATED
+  ASSIGNED
+  FINISHEDBYVENDOR
+  UNDERREVIEWBYTEAMMEMBER
+  REJECTEDBYTEAMMEMBER
+  UNDERREVIEWBYCLIENT
+  REJECTEDBYCLIENT
+  COMPLETED
+}
+
+enum SubTaskStatus {
+  CREATED
+  FINISHEDBYVENDOR
+  UNDERREVIEWBYTEAMMEMBER
+  REJECTEDBYTEAMMEMBER
+  UNDERREVIEWBYCLIENT
+  REJECTEDBYCLIENT
+  COMPLETED
+}
+
+enum UserRole {
+  CLIENT
+  TEAM_MEMBER
+  MANAGER
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
