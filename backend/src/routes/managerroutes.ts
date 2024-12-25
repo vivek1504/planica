@@ -171,9 +171,173 @@ managerRouter.post("/createClient",async (req , res)=>{
   }
 })
 
-// managerRouter.post("/createEvent", async (req ,res)=>{
-//   const {}
+managerRouter.post("/createEvent", async (req ,res)=>{
+  const {name,clientId, managerId, deadLine} = req.body;
+
+  try {
+    const existing = await prisma.event.findFirst({
+      where : {
+        name
+      }
+    })
+
+    if(existing){
+      res.json({msg : "an event with the same name already exits"})
+      return
+    }
+
+    const event = await prisma.event.create({
+      data : {
+        name,
+        clientId,
+        managerId,
+        deadLine : new Date(deadLine) ,
+        Client : {connect : {id : clientId}},
+        manager : {connect : {id : managerId}},
+        teamMembers : {create : []},
+        tasks : {create : []},
+      }
+    })
+    res.json({msg:"event created successfully",event})
+  }
+  catch(e){
+    console.log(e);
+    res.json({msg : "internal server error"})
+  }
+})
+
+managerRouter.post("/addTask",async (req , res)=>{
+  const {name, eventId, vendorId, teamMemberId ,deadLine } = req.body;
+
+  try {
+    const existingTask = await prisma.task.findFirst({
+      where : {
+        name
+      }
+    })
+
+    if(existingTask){
+      res.json({msg : "Task with this name exists"})
+      return
+    }
+
+    const newTask = await prisma.task.create({
+      data : {
+        name,
+        deadLine,
+        eventId,
+        vendorId,
+        teamMemberId,
+        vendor : {connect : {id : vendorId}},
+        teamMember : {connect : {id : teamMemberId}},
+        event : {connect : {id : eventId}},
+        subTaskRequest : {create : []},
+        subtasks : {create : []},
+        status : "CREATED"
+      }
+    })
+
+    res.json({msg : "task created successfully"})
+  }
+  catch(e){
+    console.log(e);
+    res.json({msg : "internal server error"})
+  } 
+})
+
+managerRouter.post("/addSubTask", async (req , res)=>{
+  const {name, taskId, createdById, deadLine } = req.body;
+
+  try {
+    const existingsubTask = await prisma.subTask.findFirst({
+      where : {
+        name
+      }
+    })
+
+    if(existingsubTask){
+      res.json({msg : "subTask with the same name exits"})
+      return
+    }
+
+    const subTask = await prisma.subTask.create({
+      data : {
+        name,
+        status : "CREATED",
+        taskId,
+        createdById,
+        createdByRole : "MANAGER",
+        deadLine,
+        task : {connect : {id : taskId}}
+      }
+    })
+
+    res.json({msg : "subTask added successfully"})
+  }
+  catch(e){
+    console.log(e)
+    res.json({msg : "internal server error"})
+  }
+})
+
+// managerRouter.post("/addTeamMemberToTask", async (req ,res) =>{
+//   const {teamMemberId, taskId} = req.body;
+
+//   try {
+//     const isTeamMemberId = await prisma.teamMember.findFirst({
+//       where : {id : teamMemberId}
+//     })
+
+//     const isTaskId = await prisma.task.findFirst({
+//       where : {id : taskId}
+//     })
+
+//     if(!isTaskId && !isTeamMemberId){
+//       res.json({msg : "invailid taskId or TeamMemberId"})
+//       return
+//     }
+
+//     const addTeamMemberToTask = await prisma.task.update({
+//       where : {
+//         id : taskId
+//       },
+//       data : {
+
+//       }
+//     })
+
+//   }
 // })
+
+managerRouter.put("/completeEvent", async (req , res)=>{
+  const {eventId} = req.body;
+
+  try {
+    const isValidEvent = await prisma.event.findFirst({
+      where : {
+        id : eventId
+      }
+    })
+
+    if(!isValidEvent){
+      res.json({msg : "event does not exist"})
+      return
+    }
+
+    const completedEvent = await prisma.event.update({
+      where : {
+        id : eventId
+      },
+      data : {
+        status : "COMPLETED"
+      }
+    })
+  }
+  catch(e){
+    console.log(e);
+    res.json({msg : "internal server error"})
+  }
+})
 
 
 

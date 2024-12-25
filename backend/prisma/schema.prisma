@@ -60,7 +60,7 @@ model Event {
   name        String
   clientId    Int
   teamMembers TeamMember[]
-  status      EventStatus
+  status      EventStatus  @default(CREATED)
   tasks       Task[]
   Client      Client       @relation(fields: [clientId], references: [id])
   managerId   Int
@@ -77,8 +77,8 @@ model Task {
   event          Event            @relation(fields: [eventId], references: [id])
   vendorId       Int
   vendor         Vendor           @relation(fields: [vendorId], references: [id])
-  teammemberId   Int
-  teamMember     TeamMember       @relation(fields: [teammemberId], references: [id])
+  teamMemberId   Int
+  teamMember     TeamMember       @relation(fields: [teamMemberId], references: [id])
   status         TaskStatus
   subtasks       SubTask[]
   subTaskRequest SubTaskRequest[]
@@ -115,6 +115,7 @@ model SubTaskRequest {
 }
 
 enum EventStatus {
+  CREATED
   COMPLETED
   UNDERPREPRATION
 }
