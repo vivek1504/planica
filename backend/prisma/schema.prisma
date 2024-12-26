@@ -101,17 +101,16 @@ model SubTask {
 }
 
 model SubTaskRequest {
-  id             Int           @id @default(autoincrement())
-  name           String
-  taskId         Int
-  task           Task          @relation(fields: [taskId], references: [id])
-  requestedById  Int
-  status         RequestStatus @default(PENDING)
-  approvedById   Int?
-  approvedByRole UserRole?
-  createdOn      DateTime      @default(now())
-  reviewedOn     DateTime?
-  isMajor        Boolean       @default(false)
+  id            Int           @id @default(autoincrement())
+  name          String
+  taskId        Int
+  task          Task          @relation(fields: [taskId], references: [id])
+  requestedById Int
+  status        RequestStatus @default(PENDING)
+  deadline      DateTime
+  createdOn     DateTime      @default(now())
+  reviewedOn    DateTime?
+  isMajor       Boolean       @default(false)
 }
 
 enum EventStatus {

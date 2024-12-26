@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import prisma from "../prisma";
 import { sign } from "jsonwebtoken";
 import { JWTSECRET } from "..";
+import { connect } from "http2";
 
 const managerRouter : Router = Router();
 
@@ -309,6 +310,73 @@ managerRouter.post("/addSubTask", async (req , res)=>{
 //   }
 // })
 
+managerRouter.post("/approveNewSubTask",async (req , res)=>{
+  const {subTaskRequestId, id} = req.body;
+
+  try {
+    const isValidRequsestId = await prisma.subTaskRequest.findFirst({
+      where : {
+        id : subTaskRequestId
+      }
+    })
+
+    if(!isValidRequsestId){
+      res.json({msg : "invalid sub task request"})
+      return
+    }
+
+    const newSubTask = await prisma.subTask.create({
+      data : {
+        name : isValidRequsestId.name,
+        status : "CREATED",
+        task : {connect : {id : isValidRequsestId.taskId}},
+        createdById : id,
+        createdByRole : "MANAGER",
+        deadLine : isValidRequsestId.deadline
+      }
+    })
+    
+    const updateSubTaskRequest = await prisma.subTaskRequest.update({
+      where : {id : subTaskRequestId},
+      data : {status : "APPROVED"}
+    })
+
+    res.json({msg : "subTaskRequest accepted"})
+  }
+  catch(e){
+    console.log(e)
+    res.json({msg : "internal server error"})
+  }
+})
+
+managerRouter.post("/rejectNewSubTask",async (req , res)=>{
+  const {subTaskRequestId, id} = req.body;
+
+  try {
+    const isValidRequsestId = await prisma.subTaskRequest.findFirst({
+      where : {
+        id : subTaskRequestId
+      }
+    })
+
+    if(!isValidRequsestId){
+      res.json({msg : "invalid sub task request"})
+      return
+    }
+
+    const rejectSubTaskRequest = await prisma.subTaskRequest.update({
+      where : {id : subTaskRequestId},
+      data : {status : "REJECTED"}
+    })
+
+    res.json({msg : "subTaskRequest rejected"})
+  }
+  catch(e){
+    console.log(e)
+    res.json({msg : "internal server error"})
+  }
+})
+
 managerRouter.put("/completeEvent", async (req , res)=>{
   const {eventId} = req.body;
 
@@ -335,6 +403,54 @@ managerRouter.put("/completeEvent", async (req , res)=>{
   }
   catch(e){
     console.log(e);
+    res.json({msg : "internal server error"})
+  }
+})
+
+managerRouter.get("/listEvents", async (req , res)=>{
+  try {
+    const events = await prisma.event.findMany({})
+
+    res.json({events})
+  }
+  catch(e){
+    console.log(e)
+    res.json({msg : "internal server error"})
+  }
+})
+
+managerRouter.get("/listClients", async (req , res)=>{
+  try {
+    const clients = await prisma.client.findMany({})
+
+    res.json({clients})
+  }
+  catch(e){
+    console.log(e)
+    res.json({msg : "internal server error"})
+  }
+})
+
+managerRouter.get("/listTeamMembers", async (req , res)=>{
+  try {
+    const teamMembers = await prisma.teamMember.findMany({})
+
+    res.json({teamMembers})
+  }
+  catch(e){
+    console.log(e)
+    res.json({msg : "internal server error"})
+  }
+})
+
+managerRouter.get("/listVendor", async (req , res)=>{
+  try {
+    const vendors = await prisma.vendor.findMany({})
+
+    res.json({vendors})
+  }
+  catch(e){
+    console.log(e)
     res.json({msg : "internal server error"})
   }
 })
