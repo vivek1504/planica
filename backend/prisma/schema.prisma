@@ -71,20 +71,21 @@ model Event {
 }
 
 model Task {
-  id             Int              @unique @default(autoincrement())
-  name           String
-  eventId        Int
-  event          Event            @relation(fields: [eventId], references: [id])
-  vendorId       Int
-  vendor         Vendor           @relation(fields: [vendorId], references: [id])
-  teamMemberId   Int
-  teamMember     TeamMember       @relation(fields: [teamMemberId], references: [id])
-  status         TaskStatus
-  subtasks       SubTask[]
-  subTaskRequest SubTaskRequest[]
-  createdOn      DateTime         @default(now())
-  deadLine       DateTime
-  updatedOn      DateTime         @updatedAt
+  id               Int              @unique @default(autoincrement())
+  name             String
+  eventId          Int
+  event            Event            @relation(fields: [eventId], references: [id])
+  vendorId         Int
+  vendor           Vendor           @relation(fields: [vendorId], references: [id])
+  teamMemberId     Int
+  teamMember       TeamMember       @relation(fields: [teamMemberId], references: [id])
+  status           TaskStatus
+  subtasks         SubTask[]
+  subTaskRequest   SubTaskRequest[]
+  createdOn        DateTime         @default(now())
+  deadLine         DateTime
+  updatedOn        DateTime         @updatedAt
+  approvedByVendor Boolean?         @default(false)
 }
 
 model SubTask {

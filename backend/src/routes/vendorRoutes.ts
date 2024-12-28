@@ -34,3 +34,47 @@ vendorRouter.post("/login", async (req , res)=>{
         res.json({msg : "internal server error"})
     }
 })
+
+vendorRouter.put("/submitSubTaskForCompletion",authMiddleware,async (req , res)=>{
+    const {id} = req.body.user;
+    const {subTaskId} = req.body;
+
+    try {
+        const isvalidsubTask = await prisma.subTask.update({
+            where : {id : subTaskId},
+            data : {status : "FINISHEDBYVENDOR"}
+        })
+        
+        res.json({msg : "task submitted for approval"})
+    }
+    catch(e){
+        console.log(e);
+        res.json({msg : "internal server error"})
+    }
+})
+
+vendorRouter.put("/NewTask",async (req , res)=>{
+    const {id} = req.body.user;
+    const {taskId , Response} : {taskId : number, Response : boolean} = req.body;
+    
+    try {
+        const isValidtask = await prisma.task.findFirst({
+            where : {id : taskId}
+        })
+
+       if(!isValidtask) {
+        res.json({msg : "invalid task id"})
+       }
+
+       const accept = await prisma.task.update({
+        where : {id : taskId},
+        data : {approvedByVendor : Response}
+       })
+
+       res.json({msg : "task accepted successfully"})
+    }
+    catch(e){
+        console.log(e);
+        res.json({msg : "internal sever error"})
+    }
+})
