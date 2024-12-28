@@ -3,6 +3,7 @@ import prisma from "../prisma";
 import { sign } from "jsonwebtoken";
 import { JWTSECRET } from "..";
 import { connect } from "http2";
+import { authMiddleware } from "../authMiddleware/authMiddleware";
 
 const managerRouter : Router = Router();
 
@@ -310,8 +311,9 @@ managerRouter.post("/addSubTask", async (req , res)=>{
 //   }
 // })
 
-managerRouter.post("/approveNewSubTask",async (req , res)=>{
-  const {subTaskRequestId, id} = req.body;
+managerRouter.post("/approveNewSubTask",authMiddleware, async (req , res)=>{
+  const {subTaskRequestId} = req.body;
+  const {id} = req.body.user;
 
   try {
     const isValidRequsestId = await prisma.subTaskRequest.findFirst({
@@ -350,7 +352,7 @@ managerRouter.post("/approveNewSubTask",async (req , res)=>{
 })
 
 managerRouter.post("/rejectNewSubTask",async (req , res)=>{
-  const {subTaskRequestId, id} = req.body;
+  const {subTaskRequestId} = req.body;
 
   try {
     const isValidRequsestId = await prisma.subTaskRequest.findFirst({
