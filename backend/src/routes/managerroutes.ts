@@ -156,7 +156,7 @@ managerRouter.post("/createClient",async (req , res)=>{
       return
     }
 
-    const vendor = await prisma.teamMember.create({
+    const vendor = await prisma.client.create({
       data : {
         email,
         name,
@@ -191,8 +191,6 @@ managerRouter.post("/createEvent", async (req ,res)=>{
     const event = await prisma.event.create({
       data : {
         name,
-        clientId,
-        managerId,
         deadLine : new Date(deadLine) ,
         Client : {connect : {id : clientId}},
         manager : {connect : {id : managerId}},
@@ -226,10 +224,7 @@ managerRouter.post("/addTask",async (req , res)=>{
     const newTask = await prisma.task.create({
       data : {
         name,
-        deadLine,
-        eventId,
-        vendorId,
-        teamMemberId,
+        deadLine : new Date(deadLine) ,
         vendor : {connect : {id : vendorId}},
         teamMember : {connect : {id : teamMemberId}},
         event : {connect : {id : eventId}},
@@ -266,10 +261,9 @@ managerRouter.post("/addSubTask", async (req , res)=>{
       data : {
         name,
         status : "CREATED",
-        taskId,
         createdById,
         createdByRole : "MANAGER",
-        deadLine,
+        deadLine : new Date(deadLine) ,
         task : {connect : {id : taskId}}
       }
     })
@@ -402,6 +396,7 @@ managerRouter.put("/completeEvent", async (req , res)=>{
         status : "COMPLETED"
       }
     })
+    res.json({msg : "event completed successfully"})
   }
   catch(e){
     console.log(e);

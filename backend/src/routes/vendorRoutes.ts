@@ -78,3 +78,5 @@ vendorRouter.put("/NewTask",async (req , res)=>{
         res.json({msg : "internal sever error"})
     }
 })
+
+export default vendorRouter;

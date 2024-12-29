@@ -27,7 +27,7 @@ model Vendor {
   id       Int      @unique @default(autoincrement())
   name     String
   email    String   @unique
-  number   BigInt   @unique
+  number   String   @unique
   password String
   tasks    Task[]
   role     UserRole @default(VENDOR)
@@ -37,11 +37,11 @@ model TeamMember {
   id       Int      @unique @default(autoincrement())
   name     String
   email    String   @unique
-  number   BigInt   @unique
+  number   String   @unique
   password String
   Event    Event?   @relation(fields: [eventId], references: [id])
   tasks    Task[]
-  eventId  Int
+  eventId  Int?
   role     UserRole @default(TEAM_MEMBER)
 }
 
@@ -49,7 +49,7 @@ model Client {
   id       Int      @unique @default(autoincrement())
   name     String
   email    String   @unique
-  number   BigInt   @unique
+  number   String   @unique
   password String
   event    Event[]
   role     UserRole @default(CLIENT)

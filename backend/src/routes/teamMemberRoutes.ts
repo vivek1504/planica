@@ -34,8 +34,9 @@ teamMemberRouter.post("/login", async (req , res)=>{
     }
 })
 
-teamMemberRouter.post("/addSubTask",async (req , res)=>{
-    const {name, taskId, createdById, deadLine } = req.body;
+teamMemberRouter.post("/addSubTask",authMiddleware,async (req , res)=>{
+    const {name, taskId, deadLine } = req.body;
+    const {id } = req.body.user;
 
   try {
     const existingsubTask = await prisma.subTask.findFirst({
@@ -53,8 +54,7 @@ teamMemberRouter.post("/addSubTask",async (req , res)=>{
       data : {
         name,
         status : "CREATED",
-        taskId,
-        createdById,
+        createdById : id,
         createdByRole : "TEAM_MEMBER",
         deadLine,
         task : {connect : {id : taskId}}
@@ -70,8 +70,8 @@ teamMemberRouter.post("/addSubTask",async (req , res)=>{
 })
 
 teamMemberRouter.post("/addSubTaskRequest",authMiddleware, async (req , res)=>{
-    const {name, taskId,deadLine} = req.body;
-    const id = req.body.user
+    const {name,deadLine, taskId , requestedById} = req.body;
+    
 
     try {
         const isvalidtask = await prisma.task.findFirst({
@@ -100,7 +100,7 @@ teamMemberRouter.post("/addSubTaskRequest",authMiddleware, async (req , res)=>{
             data : {
                 name,
                 taskId,
-                requestedById : id,
+                requestedById,
                 status : "PENDING",
                 deadline : deadLine
             }
@@ -114,10 +114,9 @@ teamMemberRouter.post("/addSubTaskRequest",authMiddleware, async (req , res)=>{
     }
 })
 
-teamMemberRouter.put("/subTaskCompletion", async (req , res)=>{
+teamMemberRouter.put("/subTaskCompletion",authMiddleware, async (req , res)=>{
     const {subTaskId} = req.body;
-    const {id} = req.body.user;
-
+    
     try {
         const isValidSubtask = await prisma.subTask.findFirst({
             where : {id : subTaskId}
@@ -132,6 +131,8 @@ teamMemberRouter.put("/subTaskCompletion", async (req , res)=>{
             where : {id : subTaskId},
             data : {status : "UNDERREVIEWBYCLIENT"}
         })
+
+        res.json({msg : "sub task completed"})
     }
     catch(e){
         console.log(e)
@@ -139,9 +140,9 @@ teamMemberRouter.put("/subTaskCompletion", async (req , res)=>{
     }
 })
 
-teamMemberRouter.put("/rejectSubTaskCompletion", async (req , res)=>{
+teamMemberRouter.put("/rejectSubTaskCompletion",authMiddleware, async (req , res)=>{
     const {subTaskId} = req.body;
-    const {id} = req.body.user;
+ 
 
     try {
         const isValidSubtask = await prisma.subTask.findFirst({
@@ -157,6 +158,8 @@ teamMemberRouter.put("/rejectSubTaskCompletion", async (req , res)=>{
             where : {id : subTaskId},
             data : {status : "REJECTEDBYTEAMMEMBER"}
         })
+
+        res.json({msg : "sub task completion request rejected"})
     }
     catch(e){
         console.log(e)
