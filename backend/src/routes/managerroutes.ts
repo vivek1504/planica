@@ -452,6 +452,35 @@ managerRouter.get("/listVendor", async (req , res)=>{
   }
 })
 
+managerRouter.post("/messages",authMiddleware, async (req , res)=>{
+  const {taskId, text} = req.body;
+  const {id} = req.body.user;
 
+  try {
+      const isValidTask = await prisma.task.findFirst({
+          where : {id : taskId}
+      })
+
+      if(!isValidTask){
+          res.json({msg : "invalid taskId"});
+          return
+      }
+
+      const newMessage = await prisma.comments.create({
+          data : {
+              text,
+              taskId,
+              senderId : id,
+              senderRole : "MANAGER"
+          }
+      })
+
+      res.json({msg : "message sent successfully", newMessage})
+  }
+  catch(e){
+      console.log(e)
+      res.json({msg : "internal sever error"})
+  }
+})
 
 export default managerRouter;
