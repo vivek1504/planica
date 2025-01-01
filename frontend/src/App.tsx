@@ -1,8 +1,13 @@
 import './App.css'
+import Sidebar from './components/Sidebar'
+import SignIn from './pages/SignIn'
 
 function App() {
   return (
-    <div></div>
+    <>
+    {/* <Sidebar /> */}
+    <SignIn />
+    </>
   )
 }
 
