@@ -8,7 +8,6 @@ function HeroSection() {
      <div className='relative'>
       <div>
       <Favourites />
-      <Event />
       </div>
       <div className=''>
         <Sidebar />
