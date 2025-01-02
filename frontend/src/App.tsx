@@ -1,12 +1,13 @@
 import './App.css'
-import Sidebar from './components/Sidebar'
-import SignIn from './pages/SignIn'
+import EventManagement from './pages/EventManagement'
 
 function App() {
   return (
     <>
     {/* <Sidebar /> */}
-    <SignIn />
+    {/* <SignIn /> */}
+    {/* <HeroSection/ > */}
+    <EventManagement />
     </>
   )
 }
