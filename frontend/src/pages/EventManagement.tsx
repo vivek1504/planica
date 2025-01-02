@@ -1,19 +1,23 @@
-import Event from "../components/Event"
-import Favourites from "../components/Favourites"
+import Event from "../components/Event";
+import Favourites from "../components/Favourites";
+import Sidebar from "../components/Sidebar";
 
 function EventManagement() {
   return (
     <>
-     <div className="relative">
+      <div className="relative">
         <div className="">
-            <Favourites />
+          <Favourites />
         </div>
         <div className="absolute right-10 top-[400px]">
-            <Event />
+          <Event />
         </div>
-     </div>
+        <div>
+          <Sidebar />
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default EventManagement
+export default EventManagement;

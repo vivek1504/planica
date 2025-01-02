@@ -5,10 +5,12 @@ import Login from "../assets/Login.png";
 import LoginPage from "../assets/LoginPage.png";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   async function login(data: any) {
     try {
@@ -21,6 +23,7 @@ function SignIn() {
       if (token) {
         localStorage.setItem("token", token);
         console.log("Token saved to localStorage");
+        navigate("/");
       } else {
         console.error("Token not found in the response");
       }
