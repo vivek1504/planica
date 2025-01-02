@@ -106,4 +106,30 @@ clientRouter.put("/rejectSubTaskCompletion", (req, res) => __awaiter(void 0, voi
         res.json({ msg: "internal server error" });
     }
 }));
+clientRouter.post("/messages", authMiddleware_1.authMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { taskId, text } = req.body;
+    const { id } = req.body.user;
+    try {
+        const isValidTask = yield prisma_1.default.task.findFirst({
+            where: { id: taskId }
+        });
+        if (!isValidTask) {
+            res.json({ msg: "invalid taskId" });
+            return;
+        }
+        const newMessage = yield prisma_1.default.comments.create({
+            data: {
+                text,
+                taskId,
+                senderId: id,
+                senderRole: "CLIENT"
+            }
+        });
+        res.json({ msg: "message sent successfully", newMessage });
+    }
+    catch (e) {
+        console.log(e);
+        res.json({ msg: "internal sever error" });
+    }
+}));
 exports.default = clientRouter;

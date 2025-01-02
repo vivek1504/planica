@@ -174,4 +174,30 @@ teamMemberRouter.get("/subTasks", (req, res) => __awaiter(void 0, void 0, void 0
         res.json({ msg: "internal server error" });
     }
 }));
+teamMemberRouter.post("/messages", authMiddleware_1.authMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { taskId, text } = req.body;
+    const { id } = req.body.user;
+    try {
+        const isValidTask = yield prisma_1.default.task.findFirst({
+            where: { id: taskId }
+        });
+        if (!isValidTask) {
+            res.json({ msg: "invalid taskId" });
+            return;
+        }
+        const newMessage = yield prisma_1.default.comments.create({
+            data: {
+                text,
+                taskId,
+                senderId: id,
+                senderRole: "TEAM_MEMBER"
+            }
+        });
+        res.json({ msg: "message sent successfully", newMessage });
+    }
+    catch (e) {
+        console.log(e);
+        res.json({ msg: "internal sever error" });
+    }
+}));
 exports.default = teamMemberRouter;
