@@ -13,13 +13,13 @@ import exit from "../assets/exit.png";
 const Sidebar: React.FC = () => {
   return (
     <>
-      <div className="ml-8">
-        <div className="  flex items-center justify-start mt-8 pb-2">
+      <div className="ml-8 fixed">
+        <div className=" flex items-center justify-start mt-8 pb-2">
           <img src={Planica} alt="planica icon" />
         </div>
       </div>
 
-      <div className="relative first:bg-white pt-6 p-4 rounded-lg h-[90vh] w-[280px] ml-8 shadow-md">
+      <div className="fixed top-20 first:bg-white pt-6 p-4 rounded-lg h-[90vh] w-[280px] ml-8 shadow-md">
         <h2 className="text-lg font-semibold mb-2">HOME</h2>
         <ul>
           <li className="flex items-center py-2 hover:bg-gray-100 rounded-md">
