@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Event</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <!-- Header -->
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold text-purple-600">Create a Event</h2>
+      <p class="text-sm text-gray-600">High priority task to be completed</p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="flex space-x-4 border-b mb-6">
+      <button class="text-purple-600 border-b-2 border-purple-600 pb-2">Description</button>
+      <button class="text-gray-500 pb-2">Details</button>
+      <button class="text-gray-500 pb-2">Assignment</button>
+    </div>
+
+    <!-- Date and Time -->
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Date and Time</label>
+        <div class="flex space-x-2">
+          <div class="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-1/2">
+            <input type="date" value="2024-01-01" class="text-gray-600 text-sm focus:outline-none w-full" />
+          </div>
+          <div class="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-1/2">
+            <input type="time" value="10:00" class="text-gray-600 text-sm focus:outline-none w-full" />
+          </div>
+        </div>
+        <div class="flex space-x-2 mt-2">
+          <div class="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-1/2">
+            <input type="date" value="2024-01-28" class="text-gray-600 text-sm focus:outline-none w-full" />
+          </div>
+          <div class="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-1/2">
+            <input type="time" value="18:00" class="text-gray-600 text-sm focus:outline-none w-full" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Location</label>
+        <input type="text" placeholder="Enter your Location"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-600 text-sm focus:outline-none" />
+      </div>
+
+      <!-- Guests -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Guest</label>
+        <input type="number" placeholder="Number of guests"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-600 text-sm focus:outline-none" />
+        <p class="text-xs text-gray-400 mt-1">* Upload the guest list in xls, format to manage the guest.</p>
+      </div>
+    </div>
+
+    <!-- Footer Buttons -->
+    <div class="flex justify-between mt-6">
+      <button class="text-gray-500 text-sm">Back</button>
+      <div class="space-x-2">
+        <button
+          class="text-gray-600 border border-gray-300 rounded-lg px-4 py-2 text-sm">Cancel</button>
+        <button
+          class="bg-purple-600 text-white rounded-lg px-4 py-2 text-sm hover:bg-purple-700">Next</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
