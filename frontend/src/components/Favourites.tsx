@@ -11,7 +11,7 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ title, description, progress, category, members }) => {
   return (
-    <div className="relative bg-white border border-gray-300 rounded-lg shadow p-4 w-full max-w-xs">
+    <div className="relative bg-white border border-gray-300 rounded-lg shadow p-4 w-[1100px] max-w-xs">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">{title}</h2>
         <span className="text-yellow-500 text-lg">⭐</span>
@@ -96,7 +96,7 @@ const Favorites: React.FC = () => {
   ];
 
   return (
-    <div className="absolute right-[100px] p-6 bg-gray-100 rounded-2xl mt-8">
+    <div className="absolute right-[60px] p-6 bg-gray-100 rounded-2xl mt-8 w-[1100px]">
         <div className='flex'>
             <img src={Favourite} alt="" className='p-4' />
             <div>

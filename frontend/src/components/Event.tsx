@@ -46,7 +46,7 @@ const Event: React.FC = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-100 relative rounded-2xl mt-10 right-[60px] w-[1050px]">
+    <div className="p-6 bg-gray-100 relative rounded-2xl mt-10 right-[20px] w-[1100px]">
       <div className="bg-white rounded-lg shadow p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex">

@@ -79,7 +79,7 @@ import plus from "../assets/plus.png"
           <div className="m-2 ">
             <div className="bg-white p-2 mb-4 flex rounded-2xl border-2">
                     <img src={plus} alt="" className="pr-2 "/>
-                    <p className="pt-1 text-gray-700">Not Started</p>
+                    <p className="pt-1 text-gray-700">In Progress</p>
 
             </div>
           <div className="mb-4 border-2 bg-white p-4 rounded-2xl">
@@ -96,7 +96,7 @@ import plus from "../assets/plus.png"
           <div className="m-2 ">
             <div className="bg-white p-2 mb-4 flex rounded-2xl border-2">
                     <img src={plus} alt="" className="pr-2 "/>
-                    <p className="pt-1 text-gray-700">Not Started</p>
+                    <p className="pt-1 text-gray-700">In Review</p>
 
             </div>
           <div className="mb-4 border-2 bg-white p-4 rounded-2xl">
@@ -113,7 +113,7 @@ import plus from "../assets/plus.png"
           <div className="m-2 ">
             <div className="bg-white p-2 mb-4 flex rounded-2xl border-2">
                     <img src={plus} alt="" className="pr-2 "/>
-                    <p className="pt-1 text-gray-700">Not Started</p>
+                    <p className="pt-1 text-gray-700">Completed</p>
 
             </div>
           <div className="mb-4 border-2 bg-white p-4 rounded-2xl">
