@@ -1,37 +1,38 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import chat from '../assets/chat.png';
 
-interface ClientRequest {
-  title: string;
-  description: string;
-}
+// interface ClientRequest {
+//   title: string;
+//   description: string;
+// }
 
-const clientRequests: ClientRequest[] = [
-  {
-    title: 'Arrange Extra Flower decoration',
-    description: 'Ismu Aiyat Hklayat',
-  },
-  {
-    title: 'Arrange Extra Flower decoration',
-    description: 'Ismu Aiyat Hklayat',
-  },
-  {
-    title: 'Arrange Extra Flower decoration',
-    description: 'Ismu Aiyat Hklayat',
-  },
-];
+// const clientRequests: ClientRequest[] = [
+//   {
+//     title: 'Arrange Extra Flower decoration',
+//     description: 'Ismu Aiyat Hklayat',
+//   },
+//   {
+//     title: 'Arrange Extra Flower decoration',
+//     description: 'Ismu Aiyat Hklayat',
+//   },
+//   {
+//     title: 'Arrange Extra Flower decoration',
+//     description: 'Ismu Aiyat Hklayat',
+//   },
+// ];
 
 const ClientRequestList = () => {
-  const [selectedRequest, setSelectedRequest] = useState<ClientRequest | null>(
-    null
-  );
+  // const [selectedRequest, setSelectedRequest] = useState<ClientRequest | null>(
+  //   null
+  // );
 
-  const handleRequestClick = (request: ClientRequest) => {
-    setSelectedRequest(request);
-  };
+  // const handleRequestClick = (request: ClientRequest) => {
+  //   setSelectedRequest(request);
+  // };
 
   return (
-    <div className="bg-white rounded-md shadow-md p-4 w-[500px]">
+    <>
+    <div className="bg-white absolute right-[30px] top-80 rounded-md shadow-md p-4 w-[500px]">
       <div className="flex justify-between items-center mb-4">
 
       <div className="flex">
@@ -39,13 +40,12 @@ const ClientRequestList = () => {
             <div className="pl-4 pt-1">
                 <h1 className="text-lg font-semibold">Client Request</h1>
                 <p className="text-sm text-gray-500">
-                projects complete per month basic on trends
+                Projects complete per month basic on trends
                 </p>
             </div>
-          </div>
 
-               <div className="relative inline-block">
-          <select className="appearance-none border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <div className="relative inline-block">
+          <select className="appearance-none border border-gray-300 rounded-md px-6 py-4 text-sm">
             <option value="latest">Latest</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
@@ -58,26 +58,26 @@ const ClientRequestList = () => {
             </svg>
           </div>
         </div>
-      </div>
-      <ul className="space-y-4"> {clientRequests.map((request, index) => (
-          <li
-            key={index}
-            className="p-4 border border-gray-200 rounded-md cursor-pointer hover:bg-gray-100"
-            onClick={() => handleRequestClick(request)}
-          >
-            <h3 className="text-lg font-semibold">{request.title}</h3>
-            <p className="text-gray-600">{request.description}</p>
-          </li>
-        ))}
-      </ul>
-      {selectedRequest && (
-        <div className="mt-6 p-4 border border-gray-300 rounded-md">
-          <h3 className="text-lg font-semibold">Selected Request</h3>
-          <p className="text-gray-600">{selectedRequest.title}</p>
-          <p className="text-gray-500">{selectedRequest.description}</p>
-        </div>
-      )}
-    </div>
+          </div>
+          
+
+          </div>
+
+          <div className="flex mt-10">
+            <img src={chat} alt="" className="w-14 h-14" />
+            <div className="pl-4 pt-1">
+                <h1 className="text-lg font-semibold">Client Request</h1>
+                <p className="text-sm text-gray-500">
+                Projects complete per month basic on trends
+                </p>
+            </div>
+          </div>
+          </div>
+
+              
+
+    
+    </>
   );
 };
 

@@ -4,10 +4,13 @@ import rect from '../assets/rect.png'
 import AcEmp from '../assets/AcEmp.png'
 import Graph from '../assets/graph.png'
 import OngoingTask from './OngoingTask'
+import ClientRequests from './ClientRequests'
+import Sidebar from './Sidebar'
 
 function Dashboard() {
   return (
     <>
+    <Sidebar />
     <div className='p-4 bg-gray-100  absolute rounded-2xl mt-10 right-[20px] w-[1100px]'>
        <div className='flex justify-between'>
        <div>
@@ -78,6 +81,10 @@ function Dashboard() {
 
             <div className='absolute h-[600px] left-[-40px]'>
                 <OngoingTask />
+            </div>
+
+            <div className="absolute right-0 bottom-0">
+               <ClientRequests />
             </div>
         
         
