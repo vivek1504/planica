@@ -18,7 +18,7 @@ function Dashboard() {
         <p className='text-2xl text-bold'>Abhijeet Verma</p>
         </div>
         <div className='flex'>           
-                <img src={Q} alt="" className='w-20 h-20'/>
+                <img src={Q} alt="q" className='w-20 h-20'/>
                 <img src={Notification} alt="" className='w-20 h-20'/>
            
         </div>
